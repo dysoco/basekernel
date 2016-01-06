@@ -45,9 +45,15 @@ process_init() is a big step.  This initializes the process table, but also give
 
 	ata_init();
 
-	console_printf("\nBASEKERNEL READY:\n");
+    console_changefgcolor(0, 255, 255);
+    console_printf("\nDYKERNEL READY\n");
 
-	while(1) console_putchar(keyboard_read());
+    console_init();
+    console_startprompt();
+
+    while(1) {
+        console_putchar(keyboard_read());
+    }
 
 	return 0;
 }

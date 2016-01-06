@@ -16,6 +16,8 @@ static int ypos=0;
 struct graphics_color bgcolor = {0,0,0};
 struct graphics_color fgcolor = {255,0,0};
 
+static int reading = 0;
+
 static void console_reset()
 {
 	xpos = ypos = 0;
@@ -45,14 +47,18 @@ void console_putchar( char c )
 	switch(c) {
 		case 13:
 		case 10:
-			xpos=0;
+            xpos = 0;
 			ypos++;
+            if(reading) console_prompt();
 			break;
 		case '\f':
 			console_reset();
+            if(reading) console_prompt();
 			break;
 		case '\b':
-			xpos--;
+            if(!reading || xpos > 5) {
+                xpos--;
+            }
 			break;
 		default:
 			console_writechar(xpos,ypos,c);
@@ -104,6 +110,19 @@ void console_init()
 	console_putstring("\nconsole: initialized\n");
 }
 
+void console_startprompt()
+{
+    reading = 1;
+    console_reset();
+    console_prompt();
+}
+
+void console_prompt()
+{
+    console_printf("|#|> ");
+    xpos = 5;
+}
+
 void console_changebgcolor( uint8_t r, uint8_t g, uint8_t b )
 {
     graphics_changecolor(&bgcolor, r, g, b);
@@ -112,4 +131,14 @@ void console_changebgcolor( uint8_t r, uint8_t g, uint8_t b )
 void console_changefgcolor( uint8_t r, uint8_t g, uint8_t b )
 {
     graphics_changecolor(&fgcolor, r, g, b);
+}
+
+int console_getxpos()
+{
+    return xpos;
+}
+
+int console_getypos()
+{
+    return ypos;
 }
