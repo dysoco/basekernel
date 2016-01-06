@@ -103,3 +103,13 @@ void console_init()
 	console_reset();
 	console_putstring("\nconsole: initialized\n");
 }
+
+void console_changebgcolor( uint8_t r, uint8_t g, uint8_t b )
+{
+    graphics_changecolor(&bgcolor, r, g, b);
+}
+
+void console_changefgcolor( uint8_t r, uint8_t g, uint8_t b )
+{
+    graphics_changecolor(&fgcolor, r, g, b);
+}

@@ -72,3 +72,10 @@ void graphics_char( int x, int y, char ch, struct graphics_color fgcolor, struct
 	int u = ((int)ch)*FONT_WIDTH*FONT_HEIGHT/8;
 	return graphics_bitmap(x,y,FONT_WIDTH,FONT_HEIGHT,&fontdata[u],fgcolor,bgcolor);
 }
+
+void graphics_changecolor( struct graphics_color *color, uint8_t r, uint8_t g, uint8_t b )
+{
+    color->r = r;
+    color->g = g;
+    color->b = b;
+}
